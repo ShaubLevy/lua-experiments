@@ -1,57 +1,72 @@
 function love.load()
-    x = 100
-    y = 100
-    dx = 0
-    dy = 0
-    speed = 3
-    xLimit = 720
-    yLimit = 540
-    love.window.setMode(xLimit,yLimit)
+    love.graphics.setDefaultFilter('nearest','nearest')
+    playerSprite = love.graphics.newImage('sprite.png')
+	player = {
+		grid_x = 256,
+		grid_y = 256,
+		act_x = 200,
+        act_y = 200,
+        speed = 10
+    }
+	map = {
+		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
+		{ 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1 },
+		{ 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1 },
+		{ 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1 },
+		{ 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
+		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+	}
 end
 
-function love.update()
-
+function testMap(x,y)
+    if map[(player.grid_y / 32) + y][(player.grid_x / 32) + x] == 1 then
+        return false
+    end
+    return true
 end
-
+ 
+function love.update(dt)
+	player.act_y = player.act_y - ((player.act_y - player.grid_y) * player.speed * dt)
+	player.act_x = player.act_x - ((player.act_x - player.grid_x) * player.speed * dt)
+end
+ 
 function love.draw()
 
-    dx = 0
-    dy = 0
-    xInput = false
-    yInput = false
-
-    if love.keyboard.isDown('left') and x + (dx * speed) > 0 then
-        dx = dx - 1
-        xInput = true
+    for y=1, #map do
+        for x=1, #map[y] do
+            if map[y][x] == 1 then
+                love.graphics.rectangle('line',x*32,y*32,32,32)
+            end
+        end
     end
 
-    if love.keyboard.isDown('right') and x + (dx * speed) + 50 < xLimit then
-        dx = dx + 1
-        xInput = true
-    end
-
-    if love.keyboard.isDown('up') and y + (dy * speed) > 0 then
-        dy = dy - 1
-        yInput = true
-    end
-
-    if love.keyboard.isDown('down') and y + (dy * speed) + 50 < yLimit then
-        dy = dy + 1
-        yInput = true
-    end
-
-    if xInput and yInput then
-        x = x + (dx * (speed * 2/3))
-        y = y + (dy * (speed * 2/3))
-    else
-        x = x + (dx * speed)
-        y = y + (dy * speed)
-    end
-    
-
-    
-    love.graphics.rectangle('fill',x,y,50,50)
+    --love.graphics.rectangle("fill", player.act_x, player.act_y, 32, 32)
+    love.graphics.draw(playerSprite,player.act_x,player.act_y,0,2,2)
 end
-
-
-
+ 
+function love.keypressed(key)
+    if key == "up" then
+        if testMap(0, -1) then
+            player.grid_y = player.grid_y - 32
+        end
+    elseif key == "down" then
+        if testMap(0,1) then
+            player.grid_y = player.grid_y + 32
+        end
+    elseif key == "left" then
+        if testMap(-1,0) then
+            player.grid_x = player.grid_x - 32
+        end
+    elseif key == "right" then
+        if testMap(1,0) then
+            player.grid_x = player.grid_x + 32
+        end
+	end
+end
