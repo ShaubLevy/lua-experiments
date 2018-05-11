@@ -1,28 +1,17 @@
 function love.load()
+    require 'mapGen'
     love.graphics.setDefaultFilter('nearest','nearest')
     playerSprite = love.graphics.newImage('sprite.png')
 	player = {
 		grid_x = 256,
 		grid_y = 256,
-		act_x = 200,
-        act_y = 200,
+		act_x = 256,
+        act_y = 256,
         speed = 10
     }
-	map = {
-		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-		{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-		{ 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1 },
-		{ 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1 },
-		{ 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1 },
-		{ 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-		{ 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-		{ 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-		{ 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1 },
-		{ 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-		{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
-	}
+    test = 15
+
+	map = map()
 end
 
 function testMap(x,y)
@@ -49,6 +38,7 @@ function love.draw()
 
     --love.graphics.rectangle("fill", player.act_x, player.act_y, 32, 32)
     love.graphics.draw(playerSprite,player.act_x,player.act_y,0,2,2)
+    
 end
  
 function love.keypressed(key)
