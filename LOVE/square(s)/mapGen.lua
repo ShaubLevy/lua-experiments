@@ -1,4 +1,15 @@
-function map()
+function map(j,i)
+    test = {}
+    for row = 1,i do
+        table.insert(test,{})
+        for column = 1,j do
+            if row == 1 or column == 1 then
+                table.insert(test[row], 1)
+            else
+                table.insert(test[row], 0)
+            end
+        end
+    end
     map = {
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
@@ -14,5 +25,5 @@ function map()
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
     }
-    return map
+    return test
 end

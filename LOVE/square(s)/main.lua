@@ -11,7 +11,7 @@ function love.load()
     }
     test = 15
 
-	map = map()
+	map = map(20,15)
 end
 
 function testMap(x,y)
@@ -31,7 +31,7 @@ function love.draw()
     for y=1, #map do
         for x=1, #map[y] do
             if map[y][x] == 1 then
-                love.graphics.rectangle('line',x*32,y*32,32,32)
+                love.graphics.rectangle('line',(x-1)*32,(y-1)*32,32,32)
             end
         end
     end
